@@ -1,0 +1,181 @@
+$primary: #00b894;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+a {
+  text-decoration: none;
+  display: inline-block;
+  color: #262626;
+}
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  color: $primary;
+}
+header {
+  height: 100px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  margin: 0 15%;
+}
+.account {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+}
+.nav-link {
+  font-size: 18px;
+}
+.login-link {
+  color: #262626;
+  margin-right: 30px;
+  transition: color 300ms ease-in-out;
+  &:hover {
+    color: $primary;
+    transition: color 300ms ease-in-out;
+  }
+}
+.signup-link {
+  color: #fff;
+  background: $primary;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 5px;
+  transition: box-shadow 300ms ease-in-out;
+  &:hover {
+    box-shadow: 0 1px 3px $primary;
+  }
+}
+.wrapper {
+  margin: 0 15%;
+  &--center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.heading {
+  font-size: 38px;
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+.card {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  display: flex;
+  &:hover ~ .card__action {
+    right: 10px;
+  }
+  &__img {
+    margin-right: 20px;
+  }
+  &__article {
+    align-self: center;
+    position: relative;
+  }
+  &__title {
+    font-size: 22px;
+    color: $primary;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  &__paragraph {
+    line-height: 1.4;
+    font-size: 17px;
+    margin-bottom: 20px;
+    width: calc(100% - 54px);
+  }
+  &__action {
+    position: absolute;
+    right: -20px;
+    top: 0px;
+    z-index: 999;
+    display: none;
+  }
+  &__btn {
+    text-align: center;
+    display: block;
+    padding: 12px;
+    border: 1px solid $primary;
+    font-weight: 600;
+    border-radius: 5px 0 0 5px;
+    margin-bottom: 6px;
+    color: $primary;
+    &:hover {
+      background: $primary;
+      color: #fff;
+    }
+    &--del {
+      color: #eb5b5b;
+      border-color: #eb5b5b;
+      &:hover {
+        color: #fff;
+        background: #eb5b5b;
+      }
+    }
+    &--edit {
+      color: rgba(0, 0, 0, 0.7);
+      border-color: rgba(0, 0, 0, 0.7);
+      &:hover {
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+      }
+    }
+  }
+}
+
+// Signup / Login Styles
+
+.form {
+  width: 300px;
+  &__label {
+    font-weight: 600;
+    font-size: 15px;
+    display: block;
+    margin: 10px 0;
+  }
+  &__input {
+    width: 100%;
+    padding: 12px 8px;
+    font-size: 15px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    &:focus {
+      border-color: $primary;
+    }
+  }
+  &__btn {
+    @extend .signup-link;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+}
+
+// Profile page
+
+.profile {
+  text-align: center;
+  &__img {
+    border-radius: 50%;
+  }
+  &__name {
+    margin: 20px 0;
+  }
+}

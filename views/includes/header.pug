@@ -1,0 +1,11 @@
+header
+    nav
+      a(class="logo" href="/") Somelogo
+      if user
+        a(class="account" href="/profile")
+          img(src=user.gravatar(50), alt="")
+          p= user.name
+      else
+        ul(clss="login")
+          a(class="login-link nav-link" href="/login") Login
+          a(class="signup-link nav-link" href="/signup") Sign up

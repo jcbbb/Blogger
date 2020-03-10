@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  include includes/header
+  .wrapper.wrapper--center
+    h1(class="heading") Profile
+    .profile
+      img(src=user.gravatar(200) alt="" class="profile__img")
+      p(class="profile__name")= user.name
+    a(href="/logout" class="signup-link") Log out

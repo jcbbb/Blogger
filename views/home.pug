@@ -1,0 +1,18 @@
+extends layout
+block content
+  include includes/header
+  main
+    .wrapper
+      h1(class="heading") Latest articles
+      .cards
+        .card
+          .card__img
+            img(class="" src="https://via.placeholder.com/200x160" alt="")
+          article(class="card__article")
+            a(href="" class="card__title") Sample article 1
+            p(class="card__paragraph") Lorem ipsum, dolor sit amet consectetur adipisicing elit. In quas, culpa dicta inventore harum ratione amet ut pariatur consequuntur mollitia.Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum, sequi.
+            span(class="card__date") March 08, 2020
+            .card__action
+              a(class="card__btn card__btn--del" href="#") Delete
+              a(class="card__btn card__btn--edit" href="#") Edit
+              a(class="card__btn card__btn--save" href="#") Save
