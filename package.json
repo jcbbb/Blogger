@@ -9,7 +9,7 @@
     "copy-static-assets": "ts-node copyStaticAssets.ts"
   },
   "engines": {
-    "node": 13.10.1
+    "node": "13.10.1"
   },
   "keywords": [],
   "author": "",
