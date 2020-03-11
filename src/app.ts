@@ -18,7 +18,7 @@ mongoose.connect(MONGOURI, {
 
 const db = mongoose.connection;
 
-db.on('error', (err) => console.error(err));
+db.on('error', err => console.error(err));
 db.once('open', () => {
   console.log('Connected to MongoDB');
 });
@@ -28,6 +28,7 @@ import * as homeController from './controllers/home';
 import * as signupController from './controllers/signup';
 import * as loginController from './controllers/login';
 import * as profileController from './controllers/profile';
+import * as articleController from './controllers/article';
 
 // Passport config
 import * as passportConfig from './config/passport';
@@ -49,7 +50,11 @@ app.use(
       url: MONGOURI,
       autoReconnect: true,
     }),
-  })
+    cookie: {
+      secure: true,
+      maxAge: 86400000,
+    },
+  }),
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -65,8 +70,15 @@ app.get('/signup', signupController.signup);
 app.post('/signup', signupController.postSignup);
 app.get('/login', loginController.login);
 app.post('/login', loginController.postLogin);
-app.get('/profile', profileController.profile);
-app.get('/logout', profileController.logout);
+app.get('/article/add', articleController.add);
+app.post(
+  '/article/add',
+  passportConfig.isAuthenticated,
+  articleController.postAdd,
+);
+app.get('/article/:slug', articleController.single);
+app.get('/profile', passportConfig.isAuthenticated, profileController.profile);
+app.get('/logout', passportConfig.isAuthenticated, profileController.logout);
 app.set('port', process.env.PORT || 3000);
 
 export default app;

@@ -36,13 +36,13 @@ passport.use(
         });
       });
     });
-  })
+  }),
 );
 
 export const isAuthenticated = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   if (req.isAuthenticated()) return next();
   res.redirect('/login');

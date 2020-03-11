@@ -9,44 +9,44 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_1 = require("../models/user");
+const article_1 = require("../models/article");
 const express_validator_1 = require("express-validator");
-exports.signup = (req, res) => {
-    res.render('signup', { title: 'Signup' });
+exports.add = (req, res) => {
+    res.render('add', { title: 'Add article' });
 };
-exports.postSignup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    yield express_validator_1.check('email', 'Email is not valid')
-        .isEmail()
+exports.single = (req, res) => {
+    article_1.Article.findOne({ slug: req.params.slug }, (err, article) => {
+        res.render('single', {
+            article,
+            title: article.title,
+        });
+    });
+};
+exports.postAdd = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    yield express_validator_1.check('title')
+        .isLength({ min: 10 })
         .run(req);
-    yield express_validator_1.check('password', 'Password must be at least 6 characters long')
-        .isLength({ min: 6 })
-        .run(req);
-    yield express_validator_1.sanitize('email')
-        .normalizeEmail({ gmail_remove_dots: false })
+    yield express_validator_1.check('text')
+        .isLength({ min: 10 })
         .run(req);
     const errors = express_validator_1.validationResult;
-    const { name, email, password } = req.body;
-    const user = new user_1.User({
-        name,
-        email,
-        password,
+    const { title, text } = req.body;
+    const article = new article_1.Article({
+        title,
+        text,
     });
-    user_1.User.findOne({ email }, (err, existingUser) => {
+    article_1.Article.findOne({ title }, (err, existingArticleTitle) => {
         if (err)
             return next(err);
-        if (existingUser) {
-            console.log('User with that email already exists');
-            return res.redirect('/signup');
+        if (existingArticleTitle) {
+            req.flash('error', 'Article with that title already exists. Please choose another title');
         }
-        user.save(err => {
+        article.save(err => {
             if (err)
                 return next(err);
-            req.login(user, err => {
-                if (err)
-                    return next(err);
-            });
+            req.flash('success', 'Article published!');
             res.redirect('/');
         });
     });
 });
-//# sourceMappingURL=signup.js.map
+//# sourceMappingURL=article.js.map

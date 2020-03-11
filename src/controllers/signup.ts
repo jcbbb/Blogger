@@ -9,7 +9,7 @@ export const signup = (req: Request, res: Response) => {
 export const postSignup = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   await check('email', 'Email is not valid')
     .isEmail()
@@ -35,8 +35,11 @@ export const postSignup = async (
       return res.redirect('/signup');
     }
 
-    user.save((err) => {
+    user.save(err => {
       if (err) return next(err);
+      req.login(user, err => {
+        if (err) return next(err);
+      });
       res.redirect('/');
     });
   });

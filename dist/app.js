@@ -26,7 +26,7 @@ mongoose_1.default.connect(secrets_1.MONGOURI, {
     useCreateIndex: true,
 });
 const db = mongoose_1.default.connection;
-db.on('error', (err) => console.error(err));
+db.on('error', err => console.error(err));
 db.once('open', () => {
     console.log('Connected to MongoDB');
 });
@@ -35,6 +35,9 @@ const homeController = __importStar(require("./controllers/home"));
 const signupController = __importStar(require("./controllers/signup"));
 const loginController = __importStar(require("./controllers/login"));
 const profileController = __importStar(require("./controllers/profile"));
+const articleController = __importStar(require("./controllers/article"));
+// Passport config
+const passportConfig = __importStar(require("./config/passport"));
 const app = express_1.default();
 app.set('views', path_1.default.join(__dirname, '../views'));
 app.set('view engine', 'pug');
@@ -50,6 +53,10 @@ app.use(express_session_1.default({
         url: secrets_1.MONGOURI,
         autoReconnect: true,
     }),
+    cookie: {
+        secure: true,
+        maxAge: 86400000,
+    },
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
@@ -64,8 +71,11 @@ app.get('/signup', signupController.signup);
 app.post('/signup', signupController.postSignup);
 app.get('/login', loginController.login);
 app.post('/login', loginController.postLogin);
-app.get('/profile', profileController.profile);
-app.get('/logout', profileController.logout);
+app.get('/article/add', articleController.add);
+app.post('/article/add', passportConfig.isAuthenticated, articleController.postAdd);
+app.get('/article/:slug', articleController.single);
+app.get('/profile', passportConfig.isAuthenticated, profileController.profile);
+app.get('/logout', passportConfig.isAuthenticated, profileController.logout);
 app.set('port', process.env.PORT || 3000);
 exports.default = app;
 //# sourceMappingURL=app.js.map
