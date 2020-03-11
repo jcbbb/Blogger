@@ -1,11 +1,12 @@
 {
-  "name": "my_little-cms",
+  "name": "first-typescript-project",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon dist/server.js",
+    "build": "tsc",
     "copy-static-assets": "ts-node copyStaticAssets.ts"
   },
   "engines": {
