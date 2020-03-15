@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "concurrently \"nodemon dist/server.js\" \"tsc -w\" \"gulp watch\"",
-    "build": "tsc",
     "copy-static-assets": "ts-node copyStaticAssets.ts"
   },
   "engines": {

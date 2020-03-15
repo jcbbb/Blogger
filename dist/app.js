@@ -78,7 +78,7 @@ app.get('/logout', passportConfig.isAuthenticated, profileController.logout);
 app.set('port', process.env.PORT || 3000);
 app.use((req, res, next) => {
     res.status(404);
-    res.render('404', { title: '404! Page not found' });
+    res.render('404', { title: 'Page not found' });
 });
 exports.default = app;
 //# sourceMappingURL=app.js.map
