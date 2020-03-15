@@ -23,7 +23,7 @@ passport.use(
       if (err) return done(err);
       if (!user) {
         return done(undefined, false, {
-          message: `User with email ${email} is not found`,
+          message: `${email} is not found`,
         });
       }
       bcrypt.compare(password, user.password, (err, isMatch) => {

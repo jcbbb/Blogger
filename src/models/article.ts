@@ -6,6 +6,7 @@ mongoose.plugin(slug);
 
 export type ArticleDocument = mongoose.Document & {
   title: string;
+  authorID: string;
   slug: string;
   text: string;
   timestamp: string;
@@ -16,6 +17,9 @@ const articleSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
+  },
+  authorID: {
+    type: String,
   },
   slug: {
     type: String,

@@ -3,11 +3,13 @@ block content
   include includes/header
   .wrapper.wrapper--center
     h1(class="heading") Login
-    form(class="form" method="post" action="/login")
-      .form__group
-        label(for="email" class="form__label") Email
-        input(class="form__input" name="email" type="email" placeholder="john@gmail.com" id="email")
-      .form__group
-        label(for="password" class="form__label") Password
-        input(class="form__input" type="password" name="password" placeholder="" id="password")
-      button(class="form__btn") Login
+    div(class="container container--narrow")
+      include includes/flash
+      form(class="form" method="post" action="/login")
+        .form__group
+          label(for="email" class="form__label") Email
+          input(class="form__input" name="email" type="email" placeholder="john@gmail.com" id="email" required)
+        .form__group
+          label(for="password" class="form__label") Password
+          input(class="form__input" type="password" name="password" placeholder="" id="password" required)
+        button(class="form__btn") Login

@@ -53,16 +53,12 @@ app.use(express_session_1.default({
         url: secrets_1.MONGOURI,
         autoReconnect: true,
     }),
-    cookie: {
-        secure: true,
-        maxAge: 86400000,
-    },
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 app.use(express_flash_1.default());
-app.use((req, res, next) => {
-    res.locals.user = req.user;
+app.get('*', (req, res, next) => {
+    res.locals.user = req.user || null;
     next();
 });
 // Controllers
@@ -71,11 +67,18 @@ app.get('/signup', signupController.signup);
 app.post('/signup', signupController.postSignup);
 app.get('/login', loginController.login);
 app.post('/login', loginController.postLogin);
-app.get('/article/add', articleController.add);
+app.get('/article/add', passportConfig.isAuthenticated, articleController.add);
 app.post('/article/add', passportConfig.isAuthenticated, articleController.postAdd);
+app.delete('/article/delete/:id', passportConfig.isAuthenticated, articleController.deleteArticle);
+app.get('/article/edit/:slug', passportConfig.isAuthenticated, articleController.updateArticle);
+app.post('/article/edit/:slug', passportConfig.isAuthenticated, articleController.postUpdateArticle);
 app.get('/article/:slug', articleController.single);
 app.get('/profile', passportConfig.isAuthenticated, profileController.profile);
 app.get('/logout', passportConfig.isAuthenticated, profileController.logout);
 app.set('port', process.env.PORT || 3000);
+app.use((req, res, next) => {
+    res.status(404);
+    res.render('404', { title: '404! Page not found' });
+});
 exports.default = app;
 //# sourceMappingURL=app.js.map

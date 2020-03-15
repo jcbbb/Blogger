@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = require("../models/user");
 const express_validator_1 = require("express-validator");
 exports.signup = (req, res) => {
+    if (req.user)
+        return res.redirect('/');
     res.render('signup', { title: 'Signup' });
 };
 exports.postSignup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,7 +26,11 @@ exports.postSignup = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     yield express_validator_1.sanitize('email')
         .normalizeEmail({ gmail_remove_dots: false })
         .run(req);
-    const errors = express_validator_1.validationResult;
+    const errors = express_validator_1.validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash('errors', errors.array());
+        return res.redirect('/signup');
+    }
     const { name, email, password } = req.body;
     const user = new user_1.User({
         name,
@@ -35,7 +41,9 @@ exports.postSignup = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         if (err)
             return next(err);
         if (existingUser) {
-            console.log('User with that email already exists');
+            req.flash('errors', {
+                msg: `Email already exists`,
+            });
             return res.redirect('/signup');
         }
         user.save(err => {

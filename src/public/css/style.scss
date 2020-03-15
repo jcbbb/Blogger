@@ -57,6 +57,10 @@ nav {
   &:hover {
     box-shadow: 0 1px 3px $primary;
   }
+  &--stretched {
+    width: 100%;
+    text-align: center;
+  }
 }
 .wrapper {
   margin: 0 15%;
@@ -65,11 +69,25 @@ nav {
     flex-direction: column;
     align-items: center;
   }
+  &--even {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+  }
+}
+.container {
+  &--narrow {
+    width: 300px;
+  }
 }
 .heading {
   font-size: 38px;
   margin-top: 60px;
   margin-bottom: 30px;
+  text-align: center;
+  &--lg {
+    font-size: 100px;
+  }
 }
 .card {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.07);
@@ -124,6 +142,9 @@ nav {
     border-radius: 5px;
     color: rgb(70, 70, 70);
     margin-left: 5px;
+    i {
+      pointer-events: none;
+    }
     &:hover {
       background: $primary;
       border-color: $primary;
@@ -187,6 +208,30 @@ nav {
     margin: 20px 0;
   }
 }
+.logout-link {
+  text-align: center;
+  display: block;
+  padding: 14px;
+  &:hover {
+    color: $primary;
+  }
+}
+.profile-stat {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  width: 300px;
+  margin-top: 60px;
+}
+.stat-link {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
 
 // Single article
 
@@ -195,8 +240,26 @@ nav {
   width: 600px;
   font-size: 18px;
   line-height: 1.6;
+  margin-bottom: 30px;
+  &--center {
+    text-align: center;
+  }
 }
 .who {
   font-size: 15px;
   padding-bottom: 30px;
+}
+
+// Error messages
+
+.error-msg {
+  color: #d8000c;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 6px;
+  margin-bottom: 6px;
+  border-radius: 5px;
+  border: 1px solid #ffd2d2;
+  border-left: 5px solid #ffd2d2;
+  line-height: 1.4;
 }

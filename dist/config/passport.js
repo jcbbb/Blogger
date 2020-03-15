@@ -22,7 +22,7 @@ passport_1.default.use(new localStrategy({ usernameField: 'email' }, (email, pas
             return done(err);
         if (!user) {
             return done(undefined, false, {
-                message: `User with email ${email} is not found`,
+                message: `${email} is not found`,
             });
         }
         bcryptjs_1.default.compare(password, user.password, (err, isMatch) => {

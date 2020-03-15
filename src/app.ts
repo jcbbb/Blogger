@@ -7,7 +7,6 @@ import flash from 'express-flash';
 import session from 'express-session';
 import passport from 'passport';
 import { MONGOURI, SESSION_SECRET } from './config/secrets';
-
 const MongoStore = mongo(session);
 
 mongoose.connect(MONGOURI, {
@@ -50,17 +49,14 @@ app.use(
       url: MONGOURI,
       autoReconnect: true,
     }),
-    cookie: {
-      secure: true,
-      maxAge: 86400000,
-    },
   }),
 );
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use((req, res, next) => {
-  res.locals.user = req.user;
+
+app.get('*', (req, res, next) => {
+  res.locals.user = req.user || null;
   next();
 });
 
@@ -70,15 +66,34 @@ app.get('/signup', signupController.signup);
 app.post('/signup', signupController.postSignup);
 app.get('/login', loginController.login);
 app.post('/login', loginController.postLogin);
-app.get('/article/add', articleController.add);
+app.get('/article/add', passportConfig.isAuthenticated, articleController.add);
 app.post(
   '/article/add',
   passportConfig.isAuthenticated,
   articleController.postAdd,
+);
+app.delete(
+  '/article/delete/:id',
+  passportConfig.isAuthenticated,
+  articleController.deleteArticle,
+);
+app.get(
+  '/article/edit/:slug',
+  passportConfig.isAuthenticated,
+  articleController.updateArticle,
+);
+app.post(
+  '/article/edit/:slug',
+  passportConfig.isAuthenticated,
+  articleController.postUpdateArticle,
 );
 app.get('/article/:slug', articleController.single);
 app.get('/profile', passportConfig.isAuthenticated, profileController.profile);
 app.get('/logout', passportConfig.isAuthenticated, profileController.logout);
 app.set('port', process.env.PORT || 3000);
 
+app.use((req, res, next) => {
+  res.status(404);
+  res.render('404', { title: 'Page not found' });
+});
 export default app;

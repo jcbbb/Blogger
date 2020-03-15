@@ -2,11 +2,19 @@ extends layout
 
 block content
   include includes/header
-  .wrapper.wrapper--center
-    h1(class="heading") Profile
-    .profile
-      img(src=user.gravatar(200) alt="" class="profile__img")
-      p(class="profile__name")= user.name
-    a(href="/article/add" class="signup-link") Write
-    br
-    a(href="/logout" class="") Log out
+  .wrapper.wrapper--even
+    div
+      h1(class="heading") Profile
+      .profile
+        img(src=user.gravatar(200) alt="" class="profile__img")
+        p(class="profile__name")= user.name
+      a(href="/article/add" class="signup-link signup-link--stretched") Write
+      br
+      a(href="/logout" class="logout-link") Log out
+    .profile-stat
+      a(class="stat-link" href="/profile/stats/article")
+        strong Your articles
+        span 10
+      a(class="stat-link" href="/profile/stats/saved")
+        strong Saved articles
+        span 15

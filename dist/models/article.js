@@ -12,6 +12,9 @@ const articleSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    authorID: {
+        type: String,
+    },
     slug: {
         type: String,
         slug: 'title',

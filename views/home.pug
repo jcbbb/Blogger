@@ -11,10 +11,12 @@ block content
               a(href=`/article/${article.slug}` class="card__title")= article.title
               span(class="card__date")= article.date
             if user
-              .card__action
-                a(class="card__btn card__btn--del" href="#")
-                  i(class="lni lni-close")
-                a(class="card__btn card__btn--edit" href="#")
-                  i(class='lni lni-pencil')
-                a(class="card__btn card__btn--save" href="#")
-                  i(class="lni lni-bookmark")
+              if user._id == article.authorID
+                .card__action
+                  a(class="card__btn card__btn--del" data-id=article._id)
+                    i(class="lni lni-close")
+                  a(class="card__btn card__btn--edit" href=`/article/edit/${article.slug}`)
+                    i(class='lni lni-pencil')
+                  a(class="card__btn card__btn--save")
+                    i(class="lni lni-bookmark")
+  script(defer src="/js/index.js")

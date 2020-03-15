@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { check, sanitize, validationResult } from 'express-validator';
 
 export const signup = (req: Request, res: Response) => {
+  if (req.user) return res.redirect('/');
   res.render('signup', { title: 'Signup' });
 };
 
@@ -20,7 +21,14 @@ export const postSignup = async (
   await sanitize('email')
     .normalizeEmail({ gmail_remove_dots: false })
     .run(req);
-  const errors = validationResult;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    req.flash('errors', errors.array());
+    return res.redirect('/signup');
+  }
+
   const { name, email, password } = req.body;
   const user = new User({
     name,
@@ -31,7 +39,9 @@ export const postSignup = async (
   User.findOne({ email }, (err, existingUser) => {
     if (err) return next(err);
     if (existingUser) {
-      console.log('User with that email already exists');
+      req.flash('errors', {
+        msg: `Email already exists`,
+      });
       return res.redirect('/signup');
     }
 

@@ -4,7 +4,9 @@ import crypto from 'crypto';
 
 export type UserDocument = mongoose.Document & {
   name: string;
+  _id: string;
   email: string;
+  author: string;
   password: string;
   gravatar: (size: number) => string;
 };

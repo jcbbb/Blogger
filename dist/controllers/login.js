@@ -16,13 +16,15 @@ const express_validator_1 = require("express-validator");
 const passport_1 = __importDefault(require("passport"));
 require("../config/passport");
 exports.login = (req, res) => {
+    if (req.user)
+        return res.redirect('/');
     res.render('login', { title: 'Login' });
 };
 exports.postLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     yield express_validator_1.check('email', 'Email is not valid')
         .isEmail()
         .run(req);
-    yield express_validator_1.check('password', "Password can't less than 6 characters")
+    yield express_validator_1.check('password', "Password can't be less than 6 characters")
         .isLength({ min: 6 })
         .run(req);
     yield express_validator_1.sanitize('email')
@@ -30,18 +32,20 @@ exports.postLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         .run(req);
     const errors = express_validator_1.validationResult(req);
     if (!errors.isEmpty()) {
+        req.flash('errors', errors);
         return res.redirect('/login');
     }
     passport_1.default.authenticate('local', (err, user, info) => {
         if (err)
             return next(err);
         if (!user) {
-            req.flash('errors');
+            req.flash('errors', { msg: info.message });
             return res.redirect('/login');
         }
-        req.login(user, (err) => {
+        req.login(user, err => {
             if (err)
                 return next(err);
+            req.flash('success', `Logged in as ${user.email}`);
             res.redirect('/');
         });
     })(req, res, next);
