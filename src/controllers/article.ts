@@ -2,6 +2,7 @@ import { Article, ArticleDocument } from '../models/article';
 import { User, UserDocument } from '../models/user';
 import { Request, Response, NextFunction } from 'express';
 import { check, validationResult } from 'express-validator';
+import { request } from 'http';
 
 export const add = (req: Request, res: Response) => {
   res.render('add', { title: 'Add article' });
@@ -41,7 +42,7 @@ export const postAdd = async (
           'Article with that title already exists. Please choose another title',
       });
     }
-    article.save(err => {
+    article.save((err) => {
       if (err) return next(err);
       req.flash('success', { msg: 'Article published!' });
       res.redirect('/');
@@ -80,7 +81,7 @@ export const postUpdateArticle = async (
   const { title, text } = req.body;
   const article = { title, text };
 
-  Article.updateOne({ slug: req.params.slug }, article, err => {
+  Article.updateOne({ slug: req.params.slug }, article, (err) => {
     if (err) return next(err);
 
     return res.redirect('/');
@@ -101,8 +102,19 @@ export const single = (req: Request, res: Response) => {
 };
 
 export const deleteArticle = (req: Request, res: Response) => {
-  Article.deleteOne({ _id: req.params.id }, err => {
+  Article.deleteOne({ _id: req.params.id }, (err) => {
     if (err) return new Error(err);
     res.send('Success');
   });
+};
+
+export const bookmarkArticle = (req: Request, res: Response) => {
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $push: { bookmarks: req.params.id } },
+    (err) => {
+      if (err) return new Error(err);
+      res.send('Success');
+    },
+  );
 };

@@ -13,11 +13,12 @@ mongoose.connect(MONGOURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 });
 
 const db = mongoose.connection;
 
-db.on('error', err => console.error(err));
+db.on('error', (err) => console.error(err));
 db.once('open', () => {
   console.log('Connected to MongoDB');
 });
@@ -87,9 +88,26 @@ app.post(
   passportConfig.isAuthenticated,
   articleController.postUpdateArticle,
 );
+
+app.post(
+  '/article/bookmark/:id',
+  passportConfig.isAuthenticated,
+  articleController.bookmarkArticle,
+);
 app.get('/article/:slug', articleController.single);
 app.get('/profile', passportConfig.isAuthenticated, profileController.profile);
 app.get('/logout', passportConfig.isAuthenticated, profileController.logout);
+app.get(
+  '/profile/stats/articles',
+  passportConfig.isAuthenticated,
+  profileController.profileArticle,
+);
+app.get(
+  '/profile/stats/saved',
+  passportConfig.isAuthenticated,
+  profileController.savedArticle,
+);
+
 app.set('port', process.env.PORT || 3000);
 
 app.use((req, res, next) => {

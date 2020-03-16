@@ -12,9 +12,9 @@ block content
       br
       a(href="/logout" class="logout-link") Log out
     .profile-stat
-      a(class="stat-link" href="/profile/stats/article")
+      a(class="stat-link" href="/profile/stats/articles")
         strong Your articles
-        span 10
+        span= articleCount
       a(class="stat-link" href="/profile/stats/saved")
         strong Saved articles
-        span 15
+        span= bookMarkCount

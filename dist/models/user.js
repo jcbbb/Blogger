@@ -10,6 +10,7 @@ const userSchema = new mongoose_1.default.Schema({
     name: { required: true, type: String },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    bookmarks: { type: Array },
 });
 userSchema.pre('save', function save(next) {
     const user = this;

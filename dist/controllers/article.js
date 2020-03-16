@@ -42,7 +42,7 @@ exports.postAdd = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                 msg: 'Article with that title already exists. Please choose another title',
             });
         }
-        article.save(err => {
+        article.save((err) => {
             if (err)
                 return next(err);
             req.flash('success', { msg: 'Article published!' });
@@ -75,7 +75,7 @@ exports.postUpdateArticle = (req, res, next) => __awaiter(void 0, void 0, void 0
     const errors = express_validator_1.validationResult(req);
     const { title, text } = req.body;
     const article = { title, text };
-    article_1.Article.updateOne({ slug: req.params.slug }, article, err => {
+    article_1.Article.updateOne({ slug: req.params.slug }, article, (err) => {
         if (err)
             return next(err);
         return res.redirect('/');
@@ -95,7 +95,14 @@ exports.single = (req, res) => {
     });
 };
 exports.deleteArticle = (req, res) => {
-    article_1.Article.deleteOne({ _id: req.params.id }, err => {
+    article_1.Article.deleteOne({ _id: req.params.id }, (err) => {
+        if (err)
+            return new Error(err);
+        res.send('Success');
+    });
+};
+exports.bookmarkArticle = (req, res) => {
+    user_1.User.findOneAndUpdate({ _id: req.user._id }, { $push: { bookmarks: req.params.id } }, (err) => {
         if (err)
             return new Error(err);
         res.send('Success');

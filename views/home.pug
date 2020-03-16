@@ -17,6 +17,8 @@ block content
                     i(class="lni lni-close")
                   a(class="card__btn card__btn--edit" href=`/article/edit/${article.slug}`)
                     i(class='lni lni-pencil')
-                  a(class="card__btn card__btn--save")
+              else if user
+                .card__action
+                  a(class="card__btn card__btn--save" data-id=article._id)
                     i(class="lni lni-bookmark")
   script(defer src="/js/index.js")

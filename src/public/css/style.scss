@@ -150,6 +150,11 @@ nav {
       border-color: $primary;
       color: #fff;
     }
+    &--saved {
+      background: $primary;
+      border-color: $primary;
+      color: #fff;
+    }
     &--del {
       color: #eb5b5b;
       border-color: #eb5b5b;
@@ -162,6 +167,15 @@ nav {
   }
 }
 
+.action-active-hover {
+  background: $primary;
+  border-color: $primary;
+  color: #fff;
+}
+.action-disabled {
+  cursor: default;
+  pointer-events: none;
+}
 // Signup / Login Styles
 
 .form {

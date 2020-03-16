@@ -8,6 +8,7 @@ export type UserDocument = mongoose.Document & {
   email: string;
   author: string;
   password: string;
+  bookmarks: string[];
   gravatar: (size: number) => string;
 };
 
@@ -15,6 +16,7 @@ const userSchema = new mongoose.Schema({
   name: { required: true, type: String },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
+  bookmarks: { type: Array },
 });
 
 userSchema.pre('save', function save(next) {

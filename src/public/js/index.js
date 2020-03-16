@@ -7,6 +7,7 @@
 
   deleteButtons.forEach((btn) => {
     btn.addEventListener('click', async (e) => {
+      stopImmediatePropagation();
       e.target.innerHTML = '<i class="lni lni-spiner-solid"></i>';
       const id = e.target.dataset.id;
       const options = {
@@ -23,9 +24,9 @@
   });
 
   saveButtons.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.target.innerHTML = '<i class="lni lni-spiner-solid"></i>';
+    btn.addEventListener('click', async (e) => {
       e.stopImmediatePropagation();
+      e.target.innerHTML = '<i class="lni lni-spiner-solid"></i>';
       const id = e.target.dataset.id;
       const options = {
         method: 'POST',
@@ -34,12 +35,12 @@
         },
       };
 
-      fetch(`/article/bookmark/${id}`, options).then((response) => {
-        if (response.status === 200) {
-          e.target.textContent = 'Saved';
-          e.target.classList.add('action-active-hover', 'action-disabled');
-        }
-      });
+      const response = fetch(`/article/bookmark/${id}`, options);
+
+      if (response.status === 200) {
+        e.target.textContent = 'Saved';
+        e.target.classList.add('action-active-hover', 'action-disabled');
+      }
     });
   });
 })();
