@@ -1,8 +1,25 @@
 # Blogger
-Simple blogging app for everyone.
+Simple blogging app for everyone
+
+# Getting started
+Navigate to [Blogger](https://morning-retreat-72840.herokuapp.com/)
+Create your account and enjoy!
+
 ## Functionalities
-1. Blazingly fast
-2. Login/Registratin
-3. Bookmarking system
-4. Easily delete/update your articles
-5. Full CRUD
+* Blazingly fast
+* Login/Registratin
+* Bookmarking system
+* Easily delete/update your articles
+* Full CRUD
+
+## Easily navigate with shortcuts
+`Space + W` - go to add article page
+`Space + R` - return to homepage wheerever you are
+`Space + Ctrl + Q` - logout
+`Space + P` - go to your profile
+
+## Development
+```javascript
+npm install
+npm run dev
+```
