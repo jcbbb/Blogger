@@ -7,9 +7,9 @@ Simple blogging app for everyone
 
 ## Functionalities
 * Blazingly fast
-* Login/Registratin
+* Login / Registratin
 * Bookmarking system
-* Easily delete/update your articles
+* Easily delete / update your articles
 * Full CRUD
 
 ## Easily navigate with shortcuts
