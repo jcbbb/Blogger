@@ -2,8 +2,8 @@
 Simple blogging app for everyone
 
 # Getting started
-Navigate to [Blogger](https://morning-retreat-72840.herokuapp.com/)\
-Create your account and enjoy!
+1. Navigate to [Blogger](https://morning-retreat-72840.herokuapp.com/)\
+2. Create your account and enjoy!
 
 ## Functionalities
 * Blazingly fast
