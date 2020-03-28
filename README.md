@@ -13,10 +13,10 @@ Create your account and enjoy!
 * Full CRUD
 
 ## Easily navigate with shortcuts
-`Space + W` - go to add article page
-`Space + R` - return to homepage wheerever you are
-`Space + Ctrl + Q` - logout
-`Space + P` - go to your profile
+* `Space + W` - go to add article page
+* `Space + R` - return to homepage wheerever you are
+* `Space + Ctrl + Q` - logout
+* `Space + P` - go to your profile
 
 ## Development
 ```javascript
