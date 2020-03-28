@@ -74,6 +74,7 @@ app.delete('/article/delete/:id', passportConfig.isAuthenticated, articleControl
 app.get('/article/edit/:slug', passportConfig.isAuthenticated, articleController.updateArticle);
 app.post('/article/edit/:slug', passportConfig.isAuthenticated, articleController.postUpdateArticle);
 app.post('/article/bookmark/:id', passportConfig.isAuthenticated, articleController.bookmarkArticle);
+app.post('/article/unbookmark/:id', passportConfig.isAuthenticated, articleController.unbookmarkArticle);
 app.get('/article/:slug', articleController.single);
 app.get('/profile', passportConfig.isAuthenticated, profileController.profile);
 app.get('/logout', passportConfig.isAuthenticated, profileController.logout);

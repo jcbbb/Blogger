@@ -26,7 +26,14 @@ exports.profileArticle = (req, res) => {
     });
 };
 exports.savedArticle = (req, res) => {
-    res.render('saved-articles', { title: 'Saved articles' });
+    article_1.Article.find({ _id: req.user.bookmarks }, (err, article) => {
+        if (err)
+            return new Error(err);
+        res.render('saved-articles', {
+            title: 'Saved articles',
+            articles: article,
+        });
+    });
 };
 exports.logout = (req, res) => {
     req.logout();

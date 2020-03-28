@@ -32,7 +32,7 @@ exports.postLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         .run(req);
     const errors = express_validator_1.validationResult(req);
     if (!errors.isEmpty()) {
-        req.flash('errors', errors);
+        req.flash('errors', errors.array());
         return res.redirect('/login');
     }
     passport_1.default.authenticate('local', (err, user, info) => {
@@ -42,7 +42,7 @@ exports.postLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             req.flash('errors', { msg: info.message });
             return res.redirect('/login');
         }
-        req.login(user, err => {
+        req.login(user, (err) => {
             if (err)
                 return next(err);
             req.flash('success', `Logged in as ${user.email}`);

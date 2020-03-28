@@ -3,17 +3,19 @@ extends layout
 block content
 	include includes/header
 	.wrapper
-		h1(class="heading") Your articles
-		.cards
-			each article in articles
-				.card
-					article(class="card__article")
-						a(href=`/article/${article.slug}` class="card__title")= article.title
-						span(class="card__date")= article.date
-					if user
-						if user._id == article.authorID
-							.card__action
-								a(class="card__btn card__btn--del" data-id=article._id)
-									i(class="lni lni-close")
-								a(class="card__btn card__btn--edit" href=`/article/edit/${article.slug}`)
-									i(class="lni lni-pencil")
+		.inner
+			h1(class="heading") Your articles
+			.cards
+				each article in articles
+					.card
+						article(class="card__article")
+							a(href=`/article/${article.slug}` class="card__title")= article.title
+							span(class="card__date")= article.date
+						if user
+							if user._id == article.authorID
+								.card__action
+									a(class="card__btn card__btn--del" data-id=article._id)
+										i(class="fal fa-times")
+									a(class="card__btn card__btn--edit" href=`/article/edit/${article.slug}`)
+										i(class="fal fa-pencil")
+	include includes/footer

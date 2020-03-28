@@ -6,6 +6,7 @@ import path from 'path';
 import flash from 'express-flash';
 import session from 'express-session';
 import passport from 'passport';
+
 import { MONGOURI, SESSION_SECRET } from './config/secrets';
 const MongoStore = mongo(session);
 
@@ -93,6 +94,11 @@ app.post(
   '/article/bookmark/:id',
   passportConfig.isAuthenticated,
   articleController.bookmarkArticle,
+);
+app.post(
+  '/article/unbookmark/:id',
+  passportConfig.isAuthenticated,
+  articleController.unbookmarkArticle,
 );
 app.get('/article/:slug', articleController.single);
 app.get('/profile', passportConfig.isAuthenticated, profileController.profile);

@@ -2,15 +2,7 @@ if messages.errors
   .error-container
     each error in messages.errors
       div.error-msg= error.msg
-if messages.info
-  .alert.alert-info.fade.show
-    button.close(type='button', data-dismiss='alert')
-      i.fa.fa-times-circle-o
-    each info in messages.info
-      div= info.msg
 if messages.success
-  .alert.alert-success.fade.show
-    button.close(type='button', data-dismiss='alert')
-      i.fa.fa-times-circle-o
+  .success-container
     each success in messages.success
-      div= success.msg
+      div.success-msg= success.msg

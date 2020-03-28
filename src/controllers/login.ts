@@ -28,7 +28,7 @@ export const postLogin = async (
   const errors: any = validationResult(req);
 
   if (!errors.isEmpty()) {
-    req.flash('errors', errors);
+    req.flash('errors', errors.array());
     return res.redirect('/login');
   }
 
@@ -42,7 +42,7 @@ export const postLogin = async (
         return res.redirect('/login');
       }
 
-      req.login(user, err => {
+      req.login(user, (err) => {
         if (err) return next(err);
         req.flash('success', `Logged in as ${user.email}`);
         res.redirect('/');

@@ -16,10 +16,10 @@ exports.add = (req, res) => {
     res.render('add', { title: 'Add article' });
 };
 exports.postAdd = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    yield express_validator_1.check('title')
+    yield express_validator_1.check('title', "Title can't be less than 10 characters")
         .isLength({ min: 10 })
         .run(req);
-    yield express_validator_1.check('text')
+    yield express_validator_1.check('text', "Text can't be less than 10 characters")
         .isLength({ min: 10 })
         .run(req);
     const errors = express_validator_1.validationResult(req);
@@ -41,19 +41,20 @@ exports.postAdd = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             req.flash('errors', {
                 msg: 'Article with that title already exists. Please choose another title',
             });
+            return res.redirect('/article/add');
         }
         article.save((err) => {
             if (err)
                 return next(err);
             req.flash('success', { msg: 'Article published!' });
-            res.redirect('/');
+            res.redirect('/article/add');
         });
     });
 });
-exports.updateArticle = (req, res) => {
+exports.updateArticle = (req, res, next) => {
     article_1.Article.findOne({ slug: req.params.slug }, (err, article) => {
         if (err)
-            return new Error(err);
+            return next(err);
         if (req.user._id != article.authorID) {
             res.redirect(401, '/');
         }
@@ -66,26 +67,31 @@ exports.updateArticle = (req, res) => {
     });
 };
 exports.postUpdateArticle = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    yield express_validator_1.check('title')
+    yield express_validator_1.check('title', "Title can't be less than 10 characters")
         .isLength({ min: 10 })
         .run(req);
-    yield express_validator_1.check('text')
+    yield express_validator_1.check('text', "Text can't be less than 10 characters")
         .isLength({ min: 10 })
         .run(req);
     const errors = express_validator_1.validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash('errors', errors.array());
+        return res.redirect('/article/add');
+    }
     const { title, text } = req.body;
     const article = { title, text };
     article_1.Article.updateOne({ slug: req.params.slug }, article, (err) => {
         if (err)
             return next(err);
-        return res.redirect('/');
+        req.flash('success', { msg: 'Article saved!' });
+        return res.redirect(`/article/edit/${req.params.slug}`);
     });
 });
-exports.single = (req, res) => {
+exports.single = (req, res, next) => {
     article_1.Article.findOne({ slug: req.params.slug }, (err, article) => {
         user_1.User.findById(article.authorID, (err, user) => {
             if (err)
-                return new Error(err);
+                return next(err);
             res.render('single', {
                 article,
                 title: article.title,
@@ -94,17 +100,28 @@ exports.single = (req, res) => {
         });
     });
 };
-exports.deleteArticle = (req, res) => {
+exports.deleteArticle = (req, res, next) => {
     article_1.Article.deleteOne({ _id: req.params.id }, (err) => {
+        user_1.User.updateMany({}, { $pull: { bookmarks: req.params.id } }, (err) => {
+            if (err)
+                return next(err);
+        });
         if (err)
-            return new Error(err);
+            return next(err);
         res.send('Success');
     });
 };
-exports.bookmarkArticle = (req, res) => {
-    user_1.User.findOneAndUpdate({ _id: req.user._id }, { $push: { bookmarks: req.params.id } }, (err) => {
+exports.bookmarkArticle = (req, res, next) => {
+    user_1.User.findOneAndUpdate({ _id: req.user._id }, { $addToSet: { bookmarks: req.params.id } }, (err) => {
         if (err)
-            return new Error(err);
+            return next(err);
+        res.send('Success');
+    });
+};
+exports.unbookmarkArticle = (req, res, next) => {
+    user_1.User.findOneAndUpdate({ _id: req.user._id }, { $unset: { bookmarks: req.params.id } }, (err) => {
+        if (err)
+            return next(err);
         res.send('Success');
     });
 };

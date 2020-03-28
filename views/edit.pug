@@ -3,12 +3,15 @@ extends layout
 block content
   include includes/header
   .wrapper.wrapper--center
-    h1(class="heading") Edit article
-    form(class="form form--wide" method="post" action=`/article/edit/${article.slug}`)
-      .form__group
-        label(for="title" class="form__label") Title
-        input(class="form__input" name="title" type="text" placeholder=" " id="title" value=article.title)
-      .form__group
-        label(for="text" class="form__label") Text
-        textarea(class="form__input" type="text" name="text" placeholder=" " id="text" rows="10")= article.text
-      button(class="form__btn") Save
+    .inner
+      h1(class="heading") Edit article
+      include includes/flash
+      form(class="form form--wide" method="post" action=`/article/edit/${article.slug}`)
+        .form__group
+          label(for="title" class="form__label") Title
+          input(class="form__input" name="title" type="text" placeholder=" " id="title" value=article.title)
+        .form__group
+          label(for="text" class="form__label") Text
+          textarea(class="form__input" type="text" name="text" placeholder=" " id="text" rows="10")= article.text
+        button(class="form__btn") Save
+  include includes/footer

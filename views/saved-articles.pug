@@ -4,3 +4,14 @@ block content
   include includes/header
   .wrapper
     h1(class="heading") Saved articles
+    .cards
+      each article in articles
+        .card
+          article(class="card__article")
+            a(href=`/article/${article.slug}` class="card__title")= article.title
+            span(class="card__date")= article.date
+          if user
+            .card__action
+              a(class="card__btn card__btn--saved" data-id=article._id)
+                i(class="fal fa-bookmark")
+  script(defer src="/js/saved-articles.js" type="module")
